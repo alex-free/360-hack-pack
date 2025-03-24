@@ -1,0 +1,128 @@
+#!/bin/bash
+
+version=1.0
+echo -e "360 Hack Pack v$version\n(C) 2025 Alex Free (3-BSD)\nhttps://github.com/alex-free/360-hack-pack\n"
+
+if [ $# -ne 1 ]; then
+    echo "Error: first argument must be the USB drive you wish to install this to."
+    exit 1
+fi
+
+if ! command -v 7z &> /dev/null || ! command -v curl &> /dev/null || ! command -v zip &> /dev/null ; then
+
+    if [ "$(uname)" = "Darwin" ]; then
+        echo "Mac OS detected."
+
+        if command -v port > /dev/null; then
+            echo "Dependencies for 360 Hack Pack will be installed, which requires root privileges."
+            echo "Using MacPorts"
+            sudo port -N install p7zip zip curl
+        else
+            echo "Error: MacPorts is not installed meaning 360 Hack Pack can not install the required dependencies automatically."
+        fi
+        
+    elif [ "$(shell uname)" = "Linux" ]; then
+        echo "Linux detected."
+
+        if command -v dnf &> /dev/null || command -v apt &> /dev/null; then
+            echo "Dependencies for 360 Hack Pack will be installed, which requires root privileges."
+        fi
+
+        if command -v dnf &> /dev/null; then
+            sudo dnf -y install p7zip zip curl
+        elif command -v apt &> /dev/null; then
+            sudo apt install --yes p7zip zip curl
+        else
+            echo "Error: neither the dnf apt package managers are installed on your system meaning 360 Hack Pack can not install the required dependencies automatically."
+            exit 1
+        fi
+    fi
+fi
+
+cd "$(dirname "$0")"
+
+system_update="https://download.digiex.net/Consoles/Xbox360/Dashboards/SystemUpdate_17559_USB.zip"
+
+bad_update="https://github.com/grimdoomer/Xbox360BadUpdate/releases/download/v1.1/Xbox360BadUpdate-Retail-USB-v1.1.zip"
+rock_band_blitz_demo="https://download.digiex.net/Consoles/Xbox360/Arcade-games/RBBlitz.zip"
+freemyxe="https://github.com/FreeMyXe/FreeMyXe/releases/download/beta5/FreeMyXe-beta5.zip"
+
+xex_menu="https://download.digiex.net/Consoles/Xbox360/Jtag/xexmenu_v1.1.rar"
+simple_360_nand_flasher="https://www.consolemods.org/wiki/images/f/ff/Simple_360_NAND_Flasher.7z"
+aurora="http://phoenix.xboxunity.net/downloads/Aurora%200.7b.2%20-%20Release%20Package.rar"
+
+if [ ! -e "$(basename $system_update)" ]; then
+    curl -L "$system_update" -o "$(basename $system_update)"
+fi
+
+if [ ! -e "$(basename $bad_update)" ]; then
+    curl -L "$bad_update" -o "$(basename $bad_update)"
+fi
+
+if [ ! -e "$(basename $rock_band_blitz_demo)" ]; then
+    curl -L "$rock_band_blitz_demo" -o "$(basename $rock_band_blitz_demo)"
+fi
+
+if [ ! -e "$(basename $simple_360_nand_flasher)" ]; then
+    curl -L "$simple_360_nand_flasher" -o "$(basename $simple_360_nand_flasher)"
+fi
+
+if [ ! -e "$(basename $freemyxe)" ]; then
+    curl -L "$freemyxe" -o "$(basename $freemyxe)"
+fi
+
+if [ ! -e "$(basename $xex_menu)" ]; then
+    curl -L "$xex_menu" -o "$(basename $xex_menu)"
+fi
+
+if [ ! -e "Aurora 0.7b.2 - Release Package.rar" ]; then
+    curl -L"$aurora" -o "Aurora 0.7b.2 - Release Package.rar"
+fi
+
+# Put temp directory in /var/tmp to guarantee enough space.
+tmp=$(mktemp -d  /var/tmp/360hp.XXX)
+
+# When this script exits, automatically delete the temp directory.
+cleanup() 
+{ 
+    if [[ -e "$tmp" ]]; then
+        echo "Clearing temp files..."  
+        rm -r "$tmp"   
+    fi
+}
+trap cleanup EXIT
+
+system_update="$(basename $system_update .zip)"
+
+bad_update="$(basename $bad_update .zip)"
+rock_band_blitz_demo="$(basename $rock_band_blitz_demo .zip)"
+freemyxe="$(basename $freemyxe .zip)"
+
+xex_menu="$(basename $xex_menu .rar)"
+simple_360_nand_flasher="$(basename $simple_360_nand_flasher .7z)"
+aurora="Aurora 0.7b.2 - Release Package"
+
+set -e
+
+unzip "$system_update".zip -d $tmp/"$system_update"
+unzip "$bad_update".zip -d $tmp/"$bad_update"
+unzip "$rock_band_blitz_demo".zip -d $tmp/"$rock_band_blitz_demo"
+unzip "$freemyxe".zip -d $tmp/"$freemyxe"
+
+7z x "$xex_menu".rar -o$tmp/"$xex_menu"
+7z x $tmp/"$xex_menu"/xexmenu_v1.1/XeXMenu_v1.1-LIVE.rar -o$tmp/"$xex_menu"/xexmenu_v1.1/XeXMenu_v1.1-LIVE
+
+7z x "$aurora".rar -o$tmp/aurora-v0.7b2
+
+7z x "$simple_360_nand_flasher".7z -o$tmp/"$simple_360_nand_flasher"
+
+mkdir -p "$1"/apps/OGXboxPrep
+cp -rv $tmp/"$system_update"/'$SystemUpdate' "$1"/
+
+cp -rv $tmp/"$bad_update"/"Rock Band Blitz"/* "$1"
+cp -v $tmp/"$freemyxe"/FreeMyXe.xex "$1"/BadUpdatePayload/default.xex
+cp -v $tmp/"$freemyxe"/OGXboxPrep.xex "$1"/apps/OGXboxPrep
+cp -rv $tmp/"$rock_band_blitz_demo"/Content "$1"
+cp -rv $tmp/"$xex_menu"/xexmenu_v1.1/XeXMenu_v1.1-LIVE/C0DE9999 "$1"/Content/0000000000000000/
+cp -rv $tmp/"$simple_360_nand_flasher" "$1"/apps
+cp -rv $tmp/aurora-v0.7b2 "$1"/apps

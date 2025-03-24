@@ -1,0 +1,38 @@
+#!/bin/bash
+
+version="1.0"
+echo "360 Hack Pack v$version build system"
+
+if sed --version >/dev/null 2>&1; then
+    echo "Info: using GNU sed"
+    bsd_sed=false
+else
+    echo "Info: using BSD sed"
+    bsd_sed=true
+fi
+
+if [ "$bsd_sed" == "true" ]; then
+    sed -i '' -E "s|^version=.*|version=$version|" 360hp
+    sed -i '' -E "s|^version=.*|version=$version|" installer
+else
+    sed -i'' -E "s|^version=.*|version=$version|" 360hp
+    sed -i'' -E "s|^version=.*|version=$version|" installer
+fi
+
+cd "$(dirname "$0")"
+rm -rf 360-hack-pack-v$version-ready-to-copy 360-hack-pack-v1.0-ready-to-copy.zip 360-hack-pack-v$version-downloader 360-hack-pack-v1.0-downloader.zip
+
+if [ "$1" == "clean" ]; then
+    echo "Built files deleted."
+    exit 1
+fi
+
+mkdir -p 360-hack-pack-v$version-ready-to-copy/files
+cp *.md 360-hack-pack-v$version-ready-to-copy
+./360hp 360-hack-pack-v$version-ready-to-copy/files
+cp installer 360-hack-pack-v$version-ready-to-copy/360hp
+zip -r 360-hack-pack-v$version-ready-to-copy.zip 360-hack-pack-v$version-ready-to-copy
+
+mkdir 360-hack-pack-v$version-downloader
+cp -r 360hp *.md 360-hack-pack-v$version-downloader
+zip -r 360-hack-pack-v$version-downloader.zip 360-hack-pack-v$version-downloader

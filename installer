@@ -1,0 +1,13 @@
+#!/bin/bash
+
+version=1.0
+echo -e "360 Hack Pack v$version\n(C) 2025 Alex Free (3-BSD)\nhttps://github.com/alex-free/360-hack-pack\n"
+
+if [ $# -ne 1 ]; then
+    echo "Error: first argument must be the USB drive you wish to install this to."
+    exit 1
+fi
+
+cd "$(dirname "$0")"
+
+cp -rv files/* "$1"
