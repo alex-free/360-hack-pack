@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version=1.0
+version=1.0.1
 echo -e "360 Hack Pack v$version\n(C) 2025 Alex Free (3-BSD)\nhttps://github.com/alex-free/360-hack-pack\n"
 
 if [ $# -ne 1 ]; then
@@ -48,7 +48,7 @@ rock_band_blitz_demo="https://download.digiex.net/Consoles/Xbox360/Arcade-games/
 freemyxe="https://github.com/FreeMyXe/FreeMyXe/releases/download/beta5/FreeMyXe-beta5.zip"
 
 xex_menu="https://download.digiex.net/Consoles/Xbox360/Jtag/xexmenu_v1.1.rar"
-simple_360_nand_flasher="https://www.consolemods.org/wiki/images/f/ff/Simple_360_NAND_Flasher.7z"
+simple_360_nand_flasher="https://github.com/alex-free/XDK_Projects/releases/download/v1.5b/simple-360-nand-flasher-v1.5b-read-only.zip"
 aurora="http://phoenix.xboxunity.net/downloads/Aurora%200.7b.2%20-%20Release%20Package.rar"
 
 if [ ! -e "$(basename $system_update)" ]; then
@@ -99,7 +99,7 @@ rock_band_blitz_demo="$(basename $rock_band_blitz_demo .zip)"
 freemyxe="$(basename $freemyxe .zip)"
 
 xex_menu="$(basename $xex_menu .rar)"
-simple_360_nand_flasher="$(basename $simple_360_nand_flasher .7z)"
+simple_360_nand_flasher="$(basename $simple_360_nand_flasher .zip)"
 aurora="Aurora 0.7b.2 - Release Package"
 
 set -e
@@ -113,8 +113,7 @@ unzip "$freemyxe".zip -d $tmp/"$freemyxe"
 7z x $tmp/"$xex_menu"/xexmenu_v1.1/XeXMenu_v1.1-LIVE.rar -o$tmp/"$xex_menu"/xexmenu_v1.1/XeXMenu_v1.1-LIVE
 
 7z x "$aurora".rar -o$tmp/aurora-v0.7b2
-
-7z x "$simple_360_nand_flasher".7z -o$tmp/"$simple_360_nand_flasher"
+unzip "$simple_360_nand_flasher".zip -d $tmp
 
 mkdir -p "$1"/apps/OGXboxPrep
 cp -rv $tmp/"$system_update"/'$SystemUpdate' "$1"/

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version="1.0"
+version="1.0.1"
 echo "360 Hack Pack v$version build system"
 
 if sed --version >/dev/null 2>&1; then
@@ -20,7 +20,7 @@ else
 fi
 
 cd "$(dirname "$0")"
-rm -rf 360-hack-pack-v$version-ready-to-copy 360-hack-pack-v1.0-ready-to-copy.zip 360-hack-pack-v$version-downloader 360-hack-pack-v1.0-downloader.zip
+rm -rf 360-hack-pack-v$version-ready-to-copy 360-hack-pack-v$version-ready-to-copy.zip 360-hack-pack-v$version-downloader 360-hack-pack-v$version-downloader.zip
 
 if [ "$1" == "clean" ]; then
     echo "Built files deleted."
