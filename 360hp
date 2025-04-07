@@ -1,10 +1,56 @@
 #!/bin/bash
 
-version=1.0.1
+version=1.0.2
+
+system_update_dl="https://download.digiex.net/Consoles/Xbox360/Dashboards/SystemUpdate_17559_USB.zip"
+system_update="$(basename $system_update_dl .zip)"
+
+bad_update_dl="https://github.com/grimdoomer/Xbox360BadUpdate/releases/download/v1.1/Xbox360BadUpdate-Retail-USB-v1.1.zip"
+bad_update="$(basename $bad_update_dl .zip)"
+
+rock_band_blitz_demo_dl="https://download.digiex.net/Consoles/Xbox360/Arcade-games/RBBlitz.zip"
+rock_band_blitz_demo="$(basename $rock_band_blitz_demo_dl .zip)"
+
+freemyxe_dl="https://github.com/FreeMyXe/FreeMyXe/releases/download/beta5/FreeMyXe-beta5.zip"
+freemyxe="$(basename $freemyxe_dl .zip)"
+
+xeunshackle_dl="https://github.com/Byrom90/XeUnshackle/releases/download/v1.02/XeUnshackle-BETA-v1_02.zip"
+xeunshackle="$(basename $xeunshackle_dl .zip)"
+
+xex_menu_dl="https://download.digiex.net/Consoles/Xbox360/Jtag/xexmenu_v1.1.rar"
+xex_menu="$(basename $xex_menu_dl .rar)"
+
+simple_360_nand_flasher_dl="https://github.com/alex-free/XDK_Projects/releases/download/v1.5b/simple-360-nand-flasher-v1.5b-read-only.zip"
+simple_360_nand_flasher="$(basename $simple_360_nand_flasher_dl .zip)"
+
+aurora_dl="http://phoenix.xboxunity.net/downloads/Aurora%200.7b.2%20-%20Release%20Package.rar"
+aurora="aurora-v0.7b2"
+
+hdd_compat_partition_fixer_dl="https://consolemods.org/wiki/images/b/b2/Hdd_compat_partition_fixer_v1.zip"
+hdd_compat_partition_fixer="hdd-compat-partition-fixer-v1"
+
+hacked_bc_files_dl="https://api.eaton-works.com/download/FATXplorer/MiscFiles/Hacked%20Backwards%20Compatibility%20Files.zip"
+hacked_bc_files="hacked-bc-files-12-09-2019"
+
+xell_reloaded_dl="https://github.com/Free60Project/xell-reloaded/releases/download/v0.993/XeLL_Reloaded-2stages-v0.993.tar.gz"
+xell_reloaded="xell-reloaded-v0.993"
+
 echo -e "360 Hack Pack v$version\n(C) 2025 Alex Free (3-BSD)\nhttps://github.com/alex-free/360-hack-pack\n"
 
-if [ $# -ne 1 ]; then
-    echo "Error: first argument must be the USB drive you wish to install this to."
+if [[ "$1" != "-x" && "$1" != "-f" && "$1" != "clean" ]]; then
+    echo -e "Error: the first argument must be either -x, -f, or clean.\n\nUsage:\n360hp -x <usb drive>\n360p -f <usb drive>\n<usb dive>        first argument must be the USB drive you wish to install this to.\n360hp clean      Deleate all downloaded files."
+    exit 1
+fi
+
+if [ "$1" == "clean" ]; then
+    echo "Downloaded files deleted!"
+    rm -f *.7z *.tar.gz *.zip *.rar
+    rm -rf 
+    exit 0
+fi
+
+if [ ! -d "$2" ]; then
+    echo "Error: the destination: \""$2"\" does not exist!"
     exit 1
 fi
 
@@ -41,42 +87,84 @@ fi
 
 cd "$(dirname "$0")"
 
-system_update="https://download.digiex.net/Consoles/Xbox360/Dashboards/SystemUpdate_17559_USB.zip"
-
-bad_update="https://github.com/grimdoomer/Xbox360BadUpdate/releases/download/v1.1/Xbox360BadUpdate-Retail-USB-v1.1.zip"
-rock_band_blitz_demo="https://download.digiex.net/Consoles/Xbox360/Arcade-games/RBBlitz.zip"
-freemyxe="https://github.com/FreeMyXe/FreeMyXe/releases/download/beta5/FreeMyXe-beta5.zip"
-
-xex_menu="https://download.digiex.net/Consoles/Xbox360/Jtag/xexmenu_v1.1.rar"
-simple_360_nand_flasher="https://github.com/alex-free/XDK_Projects/releases/download/v1.5b/simple-360-nand-flasher-v1.5b-read-only.zip"
-aurora="http://phoenix.xboxunity.net/downloads/Aurora%200.7b.2%20-%20Release%20Package.rar"
-
-if [ ! -e "$(basename $system_update)" ]; then
-    curl -L "$system_update" -o "$(basename $system_update)"
+if [ ! -e $system_update.zip ]; then
+    echo "Downloading $system_update.zip..."
+    curl -L "$system_update_dl" -o $system_update.zip
+else
+    echo "Found existing $system_update.zip."
 fi
 
-if [ ! -e "$(basename $bad_update)" ]; then
-    curl -L "$bad_update" -o "$(basename $bad_update)"
+if [ ! -e $bad_update.zip ]; then
+    echo "Downloading $bad_update.zip..."
+    curl -L "$bad_update_dl" -o  $bad_update.zip 
+else
+    echo "Found existing $bad_update.zip."
 fi
 
-if [ ! -e "$(basename $rock_band_blitz_demo)" ]; then
-    curl -L "$rock_band_blitz_demo" -o "$(basename $rock_band_blitz_demo)"
+if [ ! -e $rock_band_blitz_demo.zip ]; then
+    echo "Downloading $rock_band_blitz_demo.zip..."
+    curl -L "$rock_band_blitz_demo_dl" -o $rock_band_blitz_demo.zip
+else
+    echo "Found existing $rock_band_blitz_demo.zip."
 fi
 
-if [ ! -e "$(basename $simple_360_nand_flasher)" ]; then
-    curl -L "$simple_360_nand_flasher" -o "$(basename $simple_360_nand_flasher)"
+if [ ! -e $simple_360_nand_flasher.zip ]; then
+    echo "Downloading $simple_360_nand_flasher.zip..."
+    curl -L "$simple_360_nand_flasher_dl" -o $simple_360_nand_flasher.zip
+else
+    echo "Found existing $simple_360_nand_flasher.zip."
 fi
 
-if [ ! -e "$(basename $freemyxe)" ]; then
-    curl -L "$freemyxe" -o "$(basename $freemyxe)"
+if [ "$1" == "-f" ]; then
+    if [ ! -e $freemyxe.zip ]; then
+        echo "Downloading $freemyxe.zip..."
+        curl -L "$freemyxe_dl" -o $freemyxe.zip
+    else
+        echo "Found existing $freemyxe.zip."
+    fi
+elif [ "$1" == "-x" ]; then
+    if [ ! -e $xeunshackle.zip ]; then
+        echo "Downloading $xeunshackle.zip..."
+        curl -L "$xeunshackle_dl" -o $xeunshackle.zip
+    else
+        echo "Found existing $xeunshackle.zip."
+    fi
 fi
 
-if [ ! -e "$(basename $xex_menu)" ]; then
-    curl -L "$xex_menu" -o "$(basename $xex_menu)"
+if [ ! -e $xex_menu.rar ]; then
+    echo "Downloading $xex_menu.rar..."
+    curl -L "$xex_menu_dl" -o $xex_menu.rar
+else
+    echo "Found exisiting $xex_menu.rar."
 fi
 
-if [ ! -e "Aurora 0.7b.2 - Release Package.rar" ]; then
-    curl -L"$aurora" -o "Aurora 0.7b.2 - Release Package.rar"
+if [ ! -e $aurora.rar ]; then
+    echo "Downloading $aurora.rar..."
+    curl -L "$aurora_dl" -o $aurora.rar
+else
+    echo "Found exisiting $aurora.rar."
+fi
+
+if [ ! -e $hdd_compat_partition_fixer.zip ]; then
+    echo "Downloading $hdd_compat_partition_fixer.zip..."
+    curl -L "$hdd_compat_partition_fixer_dl" -o $hdd_compat_partition_fixer.zip
+else
+    echo "Found existing $hdd_compat_partition_fixer.zip."
+fi
+
+if [ ! -e $hacked_bc_files.zip ]; then
+    echo "Downloading $hacked_bc_files.zip..."
+    curl -L "$hacked_bc_files_dl" -o $hacked_bc_files.zip
+else
+    echo "Found existing $hacked_bc_files.zip."
+fi
+
+
+if [ ! -e $xell_reloaded.tar.gz ]; then
+    echo "Downloading $xell_reloaded.tar.gz..."
+    curl -L "$xell_reloaded_dl" -o $xell_reloaded.tar.gz
+else
+    echo "Found existing $hacked_bc_files.zip."
 fi
 
 # Put temp directory in /var/tmp to guarantee enough space.
@@ -92,36 +180,63 @@ cleanup()
 }
 trap cleanup EXIT
 
-system_update="$(basename $system_update .zip)"
-
-bad_update="$(basename $bad_update .zip)"
-rock_band_blitz_demo="$(basename $rock_band_blitz_demo .zip)"
-freemyxe="$(basename $freemyxe .zip)"
-
-xex_menu="$(basename $xex_menu .rar)"
-simple_360_nand_flasher="$(basename $simple_360_nand_flasher .zip)"
-aurora="Aurora 0.7b.2 - Release Package"
-
 set -e
 
-unzip "$system_update".zip -d $tmp/"$system_update"
-unzip "$bad_update".zip -d $tmp/"$bad_update"
-unzip "$rock_band_blitz_demo".zip -d $tmp/"$rock_band_blitz_demo"
-unzip "$freemyxe".zip -d $tmp/"$freemyxe"
+unzip $system_update.zip -d $tmp/$system_update
+unzip $bad_update.zip -d $tmp/$bad_update
+unzip $rock_band_blitz_demo.zip -d $tmp/$rock_band_blitz_demo
 
-7z x "$xex_menu".rar -o$tmp/"$xex_menu"
-7z x $tmp/"$xex_menu"/xexmenu_v1.1/XeXMenu_v1.1-LIVE.rar -o$tmp/"$xex_menu"/xexmenu_v1.1/XeXMenu_v1.1-LIVE
+7z x $xex_menu.rar -o$tmp/$xex_menu
+7z x $tmp/$xex_menu/xexmenu_v1.1/XeXMenu_v1.1-LIVE.rar -o$tmp/$xex_menu/xexmenu_v1.1/XeXMenu_v1.1-LIVE
 
-7z x "$aurora".rar -o$tmp/aurora-v0.7b2
-unzip "$simple_360_nand_flasher".zip -d $tmp
+7z x $aurora.rar -o$tmp/$aurora
+unzip $simple_360_nand_flasher.zip -d $tmp
+unzip $hdd_compat_partition_fixer.zip -d $tmp/$hdd_compat_partition_fixer
+unzip $hacked_bc_files.zip -d $tmp/$hacked_bc_files
+mkdir $tmp/$xell_reloaded
+tar zxvf $xell_reloaded.tar.gz -C $tmp/$xell_reloaded
 
-mkdir -p "$1"/apps/OGXboxPrep
-cp -rv $tmp/"$system_update"/'$SystemUpdate' "$1"/
+mkdir -p "$2"/apps
+cp -rv $tmp/$system_update/'$SystemUpdate' "$2"/
 
-cp -rv $tmp/"$bad_update"/"Rock Band Blitz"/* "$1"
-cp -v $tmp/"$freemyxe"/FreeMyXe.xex "$1"/BadUpdatePayload/default.xex
-cp -v $tmp/"$freemyxe"/OGXboxPrep.xex "$1"/apps/OGXboxPrep
-cp -rv $tmp/"$rock_band_blitz_demo"/Content "$1"
-cp -rv $tmp/"$xex_menu"/xexmenu_v1.1/XeXMenu_v1.1-LIVE/C0DE9999 "$1"/Content/0000000000000000/
-cp -rv $tmp/"$simple_360_nand_flasher" "$1"/apps
-cp -rv $tmp/aurora-v0.7b2 "$1"/apps
+cp -rv $tmp/$bad_update/"Rock Band Blitz"/* "$2"
+
+if [ "$1" == "-f" ]; then
+    unzip $freemyxe.zip -d $tmp/$freemyxe
+    cp -v $tmp/$freemyxe/FreeMyXe.xex "$2"/BadUpdatePayload/default.xex
+    mkdir -p "$2"/apps/og-xbox-prep-freemyxe-beta5
+    cp -v $tmp/$freemyxe/OGXboxPrep.xex "$2"/apps/og-xbox-prep-freemyxe-beta5
+    cp -v $tmp/$xell_reloaded/xell-2f.bin "$2"/BadUpdatePayload
+elif [ "$1" == "-x" ]; then
+    unzip $xeunshackle.zip -d $tmp
+    cp -rv $tmp/$xeunshackle/* "$2"
+
+    if sed --version >/dev/null 2>&1; then
+        echo "Info: using GNU sed"
+        bsd_sed=false
+    else
+        echo "Info: using BSD sed"
+        bsd_sed=true
+    fi
+
+    if [ "$bsd_sed" == "true" ]; then
+        sed -i '' -E "s|^Default =.*|Default = Usb:\\\\apps\\\\$aurora\\\\Aurora.xex|" "$2"/launch.ini
+    else
+        sed -i'' -E"s|^Default =.*|Default = Usb:\\\\apps\\\\$aurora\\\\Aurora.xex|" "$2"/launch.ini
+    fi
+
+    mkdir -p "$2"/apps/$xell_reloaded
+    cp -v $tmp/$xell_reloaded/xell-2f.bin "$2"/apps/$xell_reloaded
+    cp -v $tmp/$xell_reloaded/README "$2"/apps/$xell_reloaded/README.txt
+    cp -v $tmp/$xell_reloaded/CHANGELOG "$2"/apps/$xell_reloaded/CHANGELOG.txt
+    cp -v $tmp/$xell_reloaded/AUTHORS "$2"/apps/$xell_reloaded/AUTHORS.txt
+fi
+
+cp -rv $tmp/$rock_band_blitz_demo/Content "$2"
+cp -rv $tmp/$xex_menu/xexmenu_v1.1/XeXMenu_v1.1-LIVE/C0DE9999 "$2"/Content/0000000000000000/
+cp -rv $tmp/$simple_360_nand_flasher "$2"/apps
+cp -rv $tmp/$aurora "$2"/apps
+cp -rv $tmp/$hdd_compat_partition_fixer "$2"/apps
+cp -rv $tmp/$hacked_bc_files "$2"/apps
+
+mkdir -p "$2"/backup

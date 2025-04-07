@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version="1.0.1"
+version="1.0.2"
 echo "360 Hack Pack v$version build system"
 
 if sed --version >/dev/null 2>&1; then
@@ -20,18 +20,30 @@ else
 fi
 
 cd "$(dirname "$0")"
-rm -rf 360-hack-pack-v$version-ready-to-copy 360-hack-pack-v$version-ready-to-copy.zip 360-hack-pack-v$version-downloader 360-hack-pack-v$version-downloader.zip
+set -e
+rm -rf 360-hack-pack-v$version-freemyxe-ready-to-copy \
+360-hack-pack-v$version-freemyxe-ready-to-copy.zip \
+360-hack-pack-v$version-xeunshackle-ready-to-copy \
+360-hack-pack-v$version-xeunshackle-ready-to-copy.zip \
+360-hack-pack-v$version-downloader \
+360-hack-pack-v$version-downloader.zip
 
 if [ "$1" == "clean" ]; then
     echo "Built files deleted."
     exit 1
 fi
 
-mkdir -p 360-hack-pack-v$version-ready-to-copy/files
-cp *.md 360-hack-pack-v$version-ready-to-copy
-./360hp 360-hack-pack-v$version-ready-to-copy/files
-cp installer 360-hack-pack-v$version-ready-to-copy/360hp
-zip -r 360-hack-pack-v$version-ready-to-copy.zip 360-hack-pack-v$version-ready-to-copy
+mkdir -p 360-hack-pack-v$version-freemyxe-ready-to-copy/files
+cp *.md 360-hack-pack-v$version-freemyxe-ready-to-copy
+./360hp -f 360-hack-pack-v$version-freemyxe-ready-to-copy/files
+cp installer 360-hack-pack-v$version-freemyxe-ready-to-copy/360hp
+zip -r 360-hack-pack-v$version-freemyxe-ready-to-copy.zip 360-hack-pack-v$version-freemyxe-ready-to-copy
+
+mkdir -p 360-hack-pack-v$version-xeunshackle-ready-to-copy/files
+cp *.md 360-hack-pack-v$version-xeunshackle-ready-to-copy
+./360hp -x 360-hack-pack-v$version-xeunshackle-ready-to-copy/files
+cp installer 360-hack-pack-v$version-xeunshackle-ready-to-copy/360hp
+zip -r 360-hack-pack-v$version-xeunshackle-ready-to-copy.zip 360-hack-pack-v$version-xeunshackle-ready-to-copy
 
 mkdir 360-hack-pack-v$version-downloader
 cp -r 360hp *.md 360-hack-pack-v$version-downloader
