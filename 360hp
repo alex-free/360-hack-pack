@@ -1,11 +1,11 @@
 #!/bin/bash
 
-version=1.0.2
+version=1.0.3
 
 system_update_dl="https://download.digiex.net/Consoles/Xbox360/Dashboards/SystemUpdate_17559_USB.zip"
 system_update="$(basename $system_update_dl .zip)"
 
-bad_update_dl="https://github.com/grimdoomer/Xbox360BadUpdate/releases/download/v1.1/Xbox360BadUpdate-Retail-USB-v1.1.zip"
+bad_update_dl="https://github.com/grimdoomer/Xbox360BadUpdate/releases/download/v1.2/Xbox360BadUpdate-Retail-USB-v1.2.zip"
 bad_update="$(basename $bad_update_dl .zip)"
 
 rock_band_blitz_demo_dl="https://download.digiex.net/Consoles/Xbox360/Arcade-games/RBBlitz.zip"
@@ -61,25 +61,33 @@ if ! command -v 7z &> /dev/null || ! command -v curl &> /dev/null || ! command -
 
         if command -v port > /dev/null; then
             echo "Dependencies for 360 Hack Pack will be installed, which requires root privileges."
-            echo "Using MacPorts"
+            echo "Using MacPorts..."
             sudo port -N install p7zip zip curl
         else
-            echo "Error: MacPorts is not installed meaning 360 Hack Pack can not install the required dependencies automatically."
+            echo "Error: MacPorts is not installed, meaning that 360 Hack Pack can not install the required dependencies automatically."
+            echo "Before running this script, make sure the following tools are installed on your system: 7z, zip, curl"
+            exit 1
         fi
         
-    elif [ "$(shell uname)" = "Linux" ]; then
+    else
         echo "Linux detected."
 
-        if command -v dnf &> /dev/null || command -v apt &> /dev/null; then
+        if command -v pacman &> /dev/null || command -v apt &> /dev/null || command -v dnf &> /dev/null; then
             echo "Dependencies for 360 Hack Pack will be installed, which requires root privileges."
         fi
 
-        if command -v dnf &> /dev/null; then
-            sudo dnf -y install p7zip zip curl
+        if command -v pacman &> /dev/null; then
+            echo "Using pacman..."
+            sudo pacman -Sy --noconfirm 7zip zip curl
         elif command -v apt &> /dev/null; then
+            echo "Using apt..."
             sudo apt install --yes p7zip zip curl
+        elif command -v dnf &> /dev/null; then
+            echo "Using dnf..."
+            sudo dnf -y install p7zip zip curl
         else
-            echo "Error: neither the dnf apt package managers are installed on your system meaning 360 Hack Pack can not install the required dependencies automatically."
+            echo "Error: neither the dnf, apt or pacman package managers are installed on your system, meaning that 360 Hack Pack can not install the required dependencies automatically."
+            echo "Before running this script, make sure the following tools are installed on your system: 7z, zip, curl"
             exit 1
         fi
     fi
@@ -222,7 +230,7 @@ elif [ "$1" == "-x" ]; then
     if [ "$bsd_sed" == "true" ]; then
         sed -i '' -E "s|^Default =.*|Default = Usb:\\\\apps\\\\$aurora\\\\Aurora.xex|" "$2"/launch.ini
     else
-        sed -i'' -E"s|^Default =.*|Default = Usb:\\\\apps\\\\$aurora\\\\Aurora.xex|" "$2"/launch.ini
+        sed -i'' -E "s|^Default =.*|Default = Usb:\\\\apps\\\\$aurora\\\\Aurora.xex|" "$2"/launch.ini
     fi
 
     mkdir -p "$2"/apps/$xell_reloaded
