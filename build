@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version="1.0.2"
+version=1.0.3
 echo "360 Hack Pack v$version build system"
 
 if sed --version >/dev/null 2>&1; then

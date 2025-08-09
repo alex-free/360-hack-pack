@@ -5,7 +5,7 @@ _By Alex Free_.
 Everything you need to hack an Xbox 360, ready to be copied onto a USB drive in one download! This currently includes:
 
 * [FreeMyXe](https://github.com/FreeMyXe/FreeMyXe) Beta 5 OR [XeUnshackle](https://github.com/Byrom90/XeUnshackle) v1.0.2 Beta (YOU DECIDE!).
-* [BadUpdate](https://github.com/grimdoomer/Xbox360BadUpdate) v1.1.
+* [BadUpdate](https://github.com/grimdoomer/Xbox360BadUpdate) v1.2.
 * [XexMenu Live](https://digiex.net/threads/xexmenu-1-1-download-xex-menu-iso-live-and-xex-file-manager-for-xbox-360.11096/) v1.1.
 * [Aurora](http://phoenix.xboxunity.net/#/news) v0.7b2.
 * [Simple 360 Nand Flasher](https://github.com/Swizzy/XDK_Projects) v1.5b Read Only (Special BadUpdate Edition).
