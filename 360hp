@@ -1,11 +1,11 @@
 #!/bin/bash
 
-version=1.0.2
+version=1.0.3
 
 system_update_dl="https://download.digiex.net/Consoles/Xbox360/Dashboards/SystemUpdate_17559_USB.zip"
 system_update="$(basename $system_update_dl .zip)"
 
-bad_update_dl="https://github.com/grimdoomer/Xbox360BadUpdate/releases/download/v1.1/Xbox360BadUpdate-Retail-USB-v1.1.zip"
+bad_update_dl="https://github.com/grimdoomer/Xbox360BadUpdate/releases/download/v1.2/Xbox360BadUpdate-Retail-USB-v1.2.zip"
 bad_update="$(basename $bad_update_dl .zip)"
 
 rock_band_blitz_demo_dl="https://download.digiex.net/Consoles/Xbox360/Arcade-games/RBBlitz.zip"
@@ -35,6 +35,13 @@ hacked_bc_files="hacked-bc-files-12-09-2019"
 xell_reloaded_dl="https://github.com/Free60Project/xell-reloaded/releases/download/v0.993/XeLL_Reloaded-2stages-v0.993.tar.gz"
 xell_reloaded="xell-reloaded-v0.993"
 
+# This is reported to NOT work on Falcon v3s: https://gbatemp.net/threads/xell-reloaded-build-compatible-with-all-consoles-including-winchester.670339/post-10660117
+
+# This also includes Xell Launch!
+xell_reloaded_winchester_dl="https://github.com/alex-free/xell-reloaded/releases/download/v0.993-d4f08b4/xelllaunch-v0.993-d4f08b4.zip"
+xell_reloaded_winchester="$(basename $xell_reloaded_winchester_dl .zip)"
+# Append -winchester later.
+
 echo -e "360 Hack Pack v$version\n(C) 2025 Alex Free (3-BSD)\nhttps://github.com/alex-free/360-hack-pack\n"
 
 if [[ "$1" != "-x" && "$1" != "-f" && "$1" != "clean" ]]; then
@@ -54,7 +61,7 @@ if [ ! -d "$2" ]; then
     exit 1
 fi
 
-if ! command -v 7z &> /dev/null || ! command -v curl &> /dev/null || ! command -v zip &> /dev/null ; then
+if ! command -v 7z &> /dev/null || ! command -v curl &> /dev/null || ! command -v zip &> /dev/null || ! command -v unrar &> /dev/null; then
 
     if [ "$(uname)" = "Darwin" ]; then
         echo "Mac OS detected."
@@ -62,22 +69,24 @@ if ! command -v 7z &> /dev/null || ! command -v curl &> /dev/null || ! command -
         if command -v port > /dev/null; then
             echo "Dependencies for 360 Hack Pack will be installed, which requires root privileges."
             echo "Using MacPorts"
-            sudo port -N install p7zip zip curl
+            sudo port -N install p7zip zip curl unrar
         else
             echo "Error: MacPorts is not installed meaning 360 Hack Pack can not install the required dependencies automatically."
         fi
         
-    elif [ "$(shell uname)" = "Linux" ]; then
+    elif [ "$(uname)" = "Linux" ]; then
         echo "Linux detected."
 
         if command -v dnf &> /dev/null || command -v apt &> /dev/null; then
             echo "Dependencies for 360 Hack Pack will be installed, which requires root privileges."
         fi
 
+        # Fedora p7zip does not enable rar ughh.
         if command -v dnf &> /dev/null; then
-            sudo dnf -y install p7zip zip curl
+            sudo dnf -y install p7zip zip curl https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm unrar
+
         elif command -v apt &> /dev/null; then
-            sudo apt install --yes p7zip zip curl
+            sudo apt install --yes p7zip zip curl unrar
         else
             echo "Error: neither the dnf apt package managers are installed on your system meaning 360 Hack Pack can not install the required dependencies automatically."
             exit 1
@@ -85,7 +94,7 @@ if ! command -v 7z &> /dev/null || ! command -v curl &> /dev/null || ! command -
     fi
 fi
 
-cd "$(dirname "$0")"
+cd "$(dirname "${BASH_SOURCE[0]}")"
 
 if [ ! -e $system_update.zip ]; then
     echo "Downloading $system_update.zip..."
@@ -164,7 +173,14 @@ if [ ! -e $xell_reloaded.tar.gz ]; then
     echo "Downloading $xell_reloaded.tar.gz..."
     curl -L "$xell_reloaded_dl" -o $xell_reloaded.tar.gz
 else
-    echo "Found existing $hacked_bc_files.zip."
+    echo "Found existing $xell_reloaded.tar.gz"
+fi
+
+if [ ! -e $xell_reloaded_winchester.zip ]; then
+    echo "Downloading $xell_reloaded_winchester.zip..."
+    curl -L "$xell_reloaded_winchester_dl" -o $xell_reloaded_winchester.zip
+else
+    echo "Found existing $xell_reloaded_winchester.zip"
 fi
 
 # Put temp directory in /var/tmp to guarantee enough space.
@@ -186,15 +202,34 @@ unzip $system_update.zip -d $tmp/$system_update
 unzip $bad_update.zip -d $tmp/$bad_update
 unzip $rock_band_blitz_demo.zip -d $tmp/$rock_band_blitz_demo
 
-7z x $xex_menu.rar -o$tmp/$xex_menu
-7z x $tmp/$xex_menu/xexmenu_v1.1/XeXMenu_v1.1-LIVE.rar -o$tmp/$xex_menu/xexmenu_v1.1/XeXMenu_v1.1-LIVE
+# Unrar since Fedora p7zip has rar disabled ugh.
+# Unrar doesn't support an output path, so subshell to tmp.
+# Use x instead of e to preseve file structure inside rar.
+# Get true_root because inside of a subshell BASH_SOURCE behaves weirdly. Use pwd to get absolute path.
+true_root="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-7z x $aurora.rar -o$tmp/$aurora
+(cd $tmp && unrar x "$true_root"/$xex_menu.rar)
+# Rar in a rar! Also without a parent dir...
+mkdir $tmp/xex-live
+(cd $tmp/xex-live && unrar x $tmp/$xex_menu/XeXMenu_v1.1-LIVE.rar)
+
+# No parent dir either...
+mkdir $tmp/$aurora
+(cd $tmp/$aurora && unrar x "$true_root"/$aurora.rar)
+
 unzip $simple_360_nand_flasher.zip -d $tmp
 unzip $hdd_compat_partition_fixer.zip -d $tmp/$hdd_compat_partition_fixer
 unzip $hacked_bc_files.zip -d $tmp/$hacked_bc_files
 mkdir $tmp/$xell_reloaded
 tar zxvf $xell_reloaded.tar.gz -C $tmp/$xell_reloaded
+
+# Signify this is only tested on Winchesters.
+unzip $xell_reloaded_winchester.zip -d $tmp
+mv $tmp/$xell_reloaded_winchester $tmp/xell-reloaded-v0.993-d4f08b4-winchester
+
+# Setup Xell Launch for non-Winchester Xell Reloaded.
+cp -v $tmp/xell-reloaded-v0.993-d4f08b4-winchester/default.xex $tmp/$xell_reloaded
+cp $tmp/xell-reloaded-v0.993-d4f08b4-winchester/xell.bin $tmp/$xell_reloaded
 
 mkdir -p "$2"/apps
 cp -rv $tmp/$system_update/'$SystemUpdate' "$2"/
@@ -206,7 +241,6 @@ if [ "$1" == "-f" ]; then
     cp -v $tmp/$freemyxe/FreeMyXe.xex "$2"/BadUpdatePayload/default.xex
     mkdir -p "$2"/apps/og-xbox-prep-freemyxe-beta5
     cp -v $tmp/$freemyxe/OGXboxPrep.xex "$2"/apps/og-xbox-prep-freemyxe-beta5
-    cp -v $tmp/$xell_reloaded/xell-2f.bin "$2"/BadUpdatePayload
 elif [ "$1" == "-x" ]; then
     unzip $xeunshackle.zip -d $tmp
     cp -rv $tmp/$xeunshackle/* "$2"
@@ -219,24 +253,22 @@ elif [ "$1" == "-x" ]; then
         bsd_sed=true
     fi
 
+    # Set default dash to Aurora.
     if [ "$bsd_sed" == "true" ]; then
         sed -i '' -E "s|^Default =.*|Default = Usb:\\\\apps\\\\$aurora\\\\Aurora.xex|" "$2"/launch.ini
     else
-        sed -i'' -E"s|^Default =.*|Default = Usb:\\\\apps\\\\$aurora\\\\Aurora.xex|" "$2"/launch.ini
+        sed -i'' -E "s|^Default =.*|Default = Usb:\\\\apps\\\\$aurora\\\\Aurora.xex|" "$2"/launch.ini
     fi
-
-    mkdir -p "$2"/apps/$xell_reloaded
-    cp -v $tmp/$xell_reloaded/xell-2f.bin "$2"/apps/$xell_reloaded
-    cp -v $tmp/$xell_reloaded/README "$2"/apps/$xell_reloaded/README.txt
-    cp -v $tmp/$xell_reloaded/CHANGELOG "$2"/apps/$xell_reloaded/CHANGELOG.txt
-    cp -v $tmp/$xell_reloaded/AUTHORS "$2"/apps/$xell_reloaded/AUTHORS.txt
 fi
 
 cp -rv $tmp/$rock_band_blitz_demo/Content "$2"
-cp -rv $tmp/$xex_menu/xexmenu_v1.1/XeXMenu_v1.1-LIVE/C0DE9999 "$2"/Content/0000000000000000/
+ls $tmp
+cp -rv $tmp/xex-live/C0DE9999 "$2"/Content/0000000000000000/
 cp -rv $tmp/$simple_360_nand_flasher "$2"/apps
 cp -rv $tmp/$aurora "$2"/apps
 cp -rv $tmp/$hdd_compat_partition_fixer "$2"/apps
 cp -rv $tmp/$hacked_bc_files "$2"/apps
+cp -rv $tmp/xell-reloaded-v0.993-d4f08b4-winchester "$2"/apps
+cp -rv $tmp/$xell_reloaded "$2"/apps
 
 mkdir -p "$2"/backup

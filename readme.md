@@ -2,10 +2,14 @@
 
 _By Alex Free_.
 
-Everything you need to hack an Xbox 360, ready to be copied onto a USB drive in one download! This currently includes:
+Everything you need to hack any Xbox 360, ready to be copied onto a USB drive in one download! 
+
+![xbox 360 consoles](images/360.png)
+
+This currently includes:
 
 * [FreeMyXe](https://github.com/FreeMyXe/FreeMyXe) Beta 5 OR [XeUnshackle](https://github.com/Byrom90/XeUnshackle) v1.0.2 Beta (YOU DECIDE!).
-* [BadUpdate](https://github.com/grimdoomer/Xbox360BadUpdate) v1.1.
+* [BadUpdate](https://github.com/grimdoomer/Xbox360BadUpdate) v1.2.
 * [XexMenu Live](https://digiex.net/threads/xexmenu-1-1-download-xex-menu-iso-live-and-xex-file-manager-for-xbox-360.11096/) v1.1.
 * [Aurora](http://phoenix.xboxunity.net/#/news) v0.7b2.
 * [Simple 360 Nand Flasher](https://github.com/Swizzy/XDK_Projects) v1.5b Read Only (Special BadUpdate Edition).
@@ -28,33 +32,23 @@ Everything you need to hack an Xbox 360, ready to be copied onto a USB drive in 
 
 ## Downloads
 
-### Version 1.0.2 (4/7/2025)
+### Version 1.0.3 (8/8/2025)
 
 Changes:
 
-* Added the ability to use [XeUnshackle](https://github.com/Byrom90/XeUnshackle) or [FreeMyXe](https://github.com/FreeMyXe/FreeMyXe).
+* Updated [BadUpdate](https://github.com/grimdoomer/Xbox360BadUpdate) to v1.2. This has some serious [success rate improvements](https://github.com/grimdoomer/Xbox360BadUpdate/pull/24) compared to the previous releases of BadUpdate with noticable [results](https://gbatemp.net/threads/new-xbox-360-hypervisor-exploit-software-based.662219/post-10706382).
 
-* XeUnshackle sets Aurora as your default launcher.
+* Xell Reloaded for Winchester (a build I have created with the updated LibXennon toolchain that is now Winchester compatible, see this [thread](https://gbatemp.net/threads/xell-reloaded-build-compatible-with-all-consoles-including-winchester.670339/)) is now available. To start it on your console, launch  `apps\xell-reloaded-v0.993-d4f08b4-winchester\default.xex` with Aurora file manager or XeXMenu. This uses Xell Launch to bring up Xell Reloaded. Note that this is labeled specifically 'for Winchesters' because there is a [report](https://gbatemp.net/threads/xell-reloaded-build-compatible-with-all-consoles-including-winchester.670339/post-10659739) that it does not work on at least a Jasper v3. As I only have a Winchester at the moment, I can't debug anything for other consoles. However I can [confirm](https://gbatemp.net/threads/xell-reloaded-build-compatible-with-all-consoles-including-winchester.670339/post-10662028) the last official Xell Reloaded release works for consoles older then the Winchester model. If you want to use Xell Reloaded on a console older then the Winchester, start `apps\xell-reloaded-v0.993`.
 
-* Added [HDD Compat Partition Fixer (for original Xbox backwards compatibility)](https://consolemods.org/wiki/File:Hdd_compat_partition_fixer_v1.zip) v1.
-
-* Added [Hacked Compatibility Files (for original Xbox backwards compatibility)](https://consolemods.org/wiki/Xbox_360:Original_Xbox_Games) 12-09-2019.
-
-* Added [Xell-Reloaded](https://github.com/Free60Project/xell-reloaded) v0.993. This is setup on the FreeMyXe editions to allow it to be loaded immedietly after exploit as an option (rather then the stock NXE dashboard). On the XeUnshacked editions, Xell-Reloaded is at `apps\xell-reloaded-v0.993`. Note: Xell-Reloaded does not work on Xbox 360 E Winchester (it loads to a black screen, with no recourse other then to reboot the console and not use it when asked by FreeMyXe) so don't bother yet until this issue is [addressed](https://github.com/FreeMyXe/FreeMyXe/issues/14#issuecomment-2782039804) if your on an Xbox 360 E Winchester. Every other console revision works fine.
-
-* Improved folder name conventions in `apps` folder.
-
-* Downloader is more verbose on what it is doing.
-
-* Creates a `backup` folder that you can place your important files (such as NAND flash backup, cpu key txt, etc.).
+* Substantial improvements to `build` and `360hp` scripts. 360hp script now works again on Fedora Linux. The `unrar` command is now used once again to extract all downloaded rar files in download mode, since Fedora has the insanity to remove rar support from p7zip (but still allow the GUI Gnome desktop shipped with official ISOs to support extracting them).
 
 ---------------------------------------
 
-* [360-hack-pack-v1.0.2-freemyxe-ready-to-copy.zip](https://github.com/alex-free/360-hack-pack/releases/download/v1.0.2/360-hack-pack-v1.0.2-freemyxe-ready-to-copy.zip) _Complete file set for FreeMyXe_
+* [360-hack-pack-v1.0.3-freemyxe-ready-to-copy.zip](https://github.com/alex-free/360-hack-pack/releases/download/v1.0.3/360-hack-pack-v1.0.3-freemyxe-ready-to-copy.zip) _Complete file set for FreeMyXe_
 
-* [360-hack-pack-v1.0.2-xeunshackle-ready-to-copy.zip](https://github.com/alex-free/360-hack-pack/releases/download/v1.0.2/360-hack-pack-v1.0.2-xeunshackle-ready-to-copy.zip) _Complete file set for XeUnshackle_
+* [360-hack-pack-v1.0.3-xeunshackle-ready-to-copy.zip](https://github.com/alex-free/360-hack-pack/releases/download/v1.0.3/360-hack-pack-v1.0.3-xeunshackle-ready-to-copy.zip) _Complete file set for XeUnshackle_
 
-* [360-hack-pack-v1.0.2-downloader.zip](https://github.com/alex-free/360-hack-pack/releases/download/v1.0.2/360-hack-pack-v1.0.2-downloader.zip) _Downloader for Linux/Mac OS_
+* [360-hack-pack-v1.0.3-downloader.zip](https://github.com/alex-free/360-hack-pack/releases/download/v1.0.3/360-hack-pack-v1.0.3-downloader.zip) _Downloader for Linux/Mac OS_
 
 ---------------------------------------
 
@@ -90,7 +84,7 @@ There are 2 different releases. 'Ready To Copy' is the complete starter pack in 
 
 ## Additional Info
 
-BadUpdate is not a 100% reliable exploit (~30% chance of success). If the music and animation on the title screen in Rock Band Blitz stops the exploit failed. When that happens turn off the console, turn on the console, and try again. You may or may not need to do this many times until it works as success is completely random.
+BadUpdate is not a 100% reliable exploit (although the chance of success has been improved tremondously since Bad Update v1.0.2 came out). If the music and animation on the title screen in Rock Band Blitz stops the exploit failed. When that happens turn off the console, turn on the console, and try again. You may or may not need to do this many times until it works as success is completely random.
 
 Once BadUpdate brings you back to the dash board, you can connect to the internet because Xbox Live is blocked. Before turning off the console, you should disconnect from the internet however. If you have a wired ethernet connection, physically unplug the cord. If you have a WiFi connection, forget your WiFi network. If you have a power loss in your home and were not able to do this, as long as you turned off auto-sign in to an Xbox live profile and or turned on auto-sign in for an offline profile you should be ok. You can also skip signing in until your exploited again (recommended).
 

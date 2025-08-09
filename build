@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version="1.0.2"
+version="1.0.3"
 echo "360 Hack Pack v$version build system"
 
 if sed --version >/dev/null 2>&1; then
@@ -35,12 +35,14 @@ fi
 
 mkdir -p 360-hack-pack-v$version-freemyxe-ready-to-copy/files
 cp *.md 360-hack-pack-v$version-freemyxe-ready-to-copy
+cp -r images 360-hack-pack-v$version-freemyxe-ready-to-copy
 ./360hp -f 360-hack-pack-v$version-freemyxe-ready-to-copy/files
 cp installer 360-hack-pack-v$version-freemyxe-ready-to-copy/360hp
 zip -r 360-hack-pack-v$version-freemyxe-ready-to-copy.zip 360-hack-pack-v$version-freemyxe-ready-to-copy
 
 mkdir -p 360-hack-pack-v$version-xeunshackle-ready-to-copy/files
 cp *.md 360-hack-pack-v$version-xeunshackle-ready-to-copy
+cp -r images 360-hack-pack-v$version-xeunshackle-ready-to-copy
 ./360hp -x 360-hack-pack-v$version-xeunshackle-ready-to-copy/files
 cp installer 360-hack-pack-v$version-xeunshackle-ready-to-copy/360hp
 zip -r 360-hack-pack-v$version-xeunshackle-ready-to-copy.zip 360-hack-pack-v$version-xeunshackle-ready-to-copy
