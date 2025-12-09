@@ -1,5 +1,7 @@
 # 360 Hack Pack - The Ultimate Xbox 360 Starter Pack
 
+**ESTABLISHED 3/24/2025** - _The original all in one hack pack for the Xbox 360_
+
 _By Alex Free_.
 
 Everything you need to hack any Xbox 360, ready to be copied onto a USB drive in one download! 
@@ -8,7 +10,7 @@ Everything you need to hack any Xbox 360, ready to be copied onto a USB drive in
 
 This currently includes:
 
-* [FreeMyXe](https://github.com/FreeMyXe/FreeMyXe) Beta 5 OR [XeUnshackle](https://github.com/Byrom90/XeUnshackle) v1.0.2 Beta (YOU DECIDE!).
+* [FreeMyXe](https://github.com/FreeMyXe/FreeMyXe) v1.1 OR [XeUnshackle](https://github.com/Byrom90/XeUnshackle) v1.0.3 Beta (YOU DECIDE!).
 * [BadUpdate](https://github.com/grimdoomer/Xbox360BadUpdate) v1.2.
 * [XexMenu Live](https://digiex.net/threads/xexmenu-1-1-download-xex-menu-iso-live-and-xex-file-manager-for-xbox-360.11096/) v1.1.
 * [Aurora](http://phoenix.xboxunity.net/#/news) v0.7b2.
@@ -32,23 +34,33 @@ This currently includes:
 
 ## Downloads
 
-### Version 1.0.3 (8/8/2025)
+### Version 1.0.4 (12/8/2025)
 
 Changes:
 
-* Updated [BadUpdate](https://github.com/grimdoomer/Xbox360BadUpdate) to v1.2. This has some serious [success rate improvements](https://github.com/grimdoomer/Xbox360BadUpdate/pull/24) compared to the previous releases of BadUpdate with noticable [results](https://gbatemp.net/threads/new-xbox-360-hypervisor-exploit-software-based.662219/post-10706382).
+* Updated [XeUnshackle](https://github.com/Byrom90/XeUnshackle) to v1.0.3 BETA.
 
-* Xell Reloaded for Winchester (a build I have created with the updated LibXennon toolchain that is now Winchester compatible, see this [thread](https://gbatemp.net/threads/xell-reloaded-build-compatible-with-all-consoles-including-winchester.670339/)) is now available. To start it on your console, launch  `apps\xell-reloaded-v0.993-d4f08b4-winchester\default.xex` with Aurora file manager or XeXMenu. This uses Xell Launch to bring up Xell Reloaded. Note that this is labeled specifically 'for Winchesters' because there is a [report](https://gbatemp.net/threads/xell-reloaded-build-compatible-with-all-consoles-including-winchester.670339/post-10659739) that it does not work on at least a Jasper v3. As I only have a Winchester at the moment, I can't debug anything for other consoles. However I can [confirm](https://gbatemp.net/threads/xell-reloaded-build-compatible-with-all-consoles-including-winchester.670339/post-10662028) the last official Xell Reloaded release works for consoles older then the Winchester model. If you want to use Xell Reloaded on a console older then the Winchester, start `apps\xell-reloaded-v0.993\default.xex`.
+* Updated [FreeMyXe](https://github.com/FreeMyXe/FreeMyXe) to v1.1.
 
-* Substantial improvements to `build` and `360hp` scripts. 360hp script now works again on Fedora Linux. The `unrar` command is now used once again to extract all downloaded rar files in download mode, since Fedora has the insanity to remove rar support from p7zip (but still allow the GUI Gnome desktop shipped with official ISOs to support extracting them).
+* The above changes add compatibility with [Bad Storage (2TB HDD support)](https://fatxplorer.eaton-works.com/bad-storage/). They also seem to increase reliability and speed improvements for the exploit to me anyways...
+
+TODO:
+
+* Patch Aurora.xex/make it boot automatically after FreeMyXe. This already works for XeUnShackle, but I need to integrate actually patching of the Aurora before making the zip file for FreeMyXe to auto-launch after exploit.
+
+* Implement Dashboard exploit/HDD avatar exploit.
+
+* More options for original Xbox compatibility included by default.
+
+* ?? You tell me. I've been very happy with this. All my games from Fallout 3+GOTY DLC to GTA V have worked since pretty much the begining. 
 
 ---------------------------------------
 
-* [360-hack-pack-v1.0.3-freemyxe-ready-to-copy.zip](https://github.com/alex-free/360-hack-pack/releases/download/v1.0.3/360-hack-pack-v1.0.3-freemyxe-ready-to-copy.zip) _Complete file set for FreeMyXe_
+* [360-hack-pack-v1.0.4-freemyxe-ready-to-copy.zip](https://github.com/alex-free/360-hack-pack/releases/download/v1.0.4/360-hack-pack-v1.0.4-freemyxe-ready-to-copy.zip) _Complete file set for FreeMyXe_
 
-* [360-hack-pack-v1.0.3-xeunshackle-ready-to-copy.zip](https://github.com/alex-free/360-hack-pack/releases/download/v1.0.3/360-hack-pack-v1.0.3-xeunshackle-ready-to-copy.zip) _Complete file set for XeUnshackle_
+* [360-hack-pack-v1.0.4-xeunshackle-ready-to-copy.zip](https://github.com/alex-free/360-hack-pack/releases/download/v1.0.4/360-hack-pack-v1.0.4-xeunshackle-ready-to-copy.zip) _Complete file set for XeUnshackle_
 
-* [360-hack-pack-v1.0.3-downloader.zip](https://github.com/alex-free/360-hack-pack/releases/download/v1.0.3/360-hack-pack-v1.0.3-downloader.zip) _Downloader for Linux/Mac OS_
+* [360-hack-pack-v1.0.4-downloader.zip](https://github.com/alex-free/360-hack-pack/releases/download/v1.0.4/360-hack-pack-v1.0.4-downloader.zip) _Downloader for Linux/Mac OS_
 
 ---------------------------------------
 

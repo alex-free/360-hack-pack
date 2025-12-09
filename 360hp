@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version=1.0.3
+version=1.0.4
 
 system_update_dl="https://download.digiex.net/Consoles/Xbox360/Dashboards/SystemUpdate_17559_USB.zip"
 system_update="$(basename $system_update_dl .zip)"
@@ -11,10 +11,10 @@ bad_update="$(basename $bad_update_dl .zip)"
 rock_band_blitz_demo_dl="https://download.digiex.net/Consoles/Xbox360/Arcade-games/RBBlitz.zip"
 rock_band_blitz_demo="$(basename $rock_band_blitz_demo_dl .zip)"
 
-freemyxe_dl="https://github.com/FreeMyXe/FreeMyXe/releases/download/beta5/FreeMyXe-beta5.zip"
+freemyxe_dl="https://github.com/FreeMyXe/FreeMyXe/releases/download/1.1/FreeMyXe-1.1-xell-ea6de0b.zip"
 freemyxe="$(basename $freemyxe_dl .zip)"
 
-xeunshackle_dl="https://github.com/Byrom90/XeUnshackle/releases/download/v1.02/XeUnshackle-BETA-v1_02.zip"
+xeunshackle_dl="https://github.com/Byrom90/XeUnshackle/releases/download/v1.03/XeUnshackle-BETA-v1_03.zip"
 xeunshackle="$(basename $xeunshackle_dl .zip)"
 
 xex_menu_dl="https://download.digiex.net/Consoles/Xbox360/Jtag/xexmenu_v1.1.rar"
@@ -241,6 +241,9 @@ if [ "$1" == "-f" ]; then
     cp -v $tmp/$freemyxe/FreeMyXe.xex "$2"/BadUpdatePayload/default.xex
     mkdir -p "$2"/apps/og-xbox-prep-freemyxe-beta5
     cp -v $tmp/$freemyxe/OGXboxPrep.xex "$2"/apps/og-xbox-prep-freemyxe-beta5
+    # Set default dash to Aurora.
+    #cp $tmp/$aurora/Aurora.xex "$2"/BadUpdatePayload/after_patch.xex 
+    # Implement PATCHING of Aurora.xex to make this work, not interested rn.
 elif [ "$1" == "-x" ]; then
     unzip $xeunshackle.zip -d $tmp
     cp -rv $tmp/$xeunshackle/* "$2"
