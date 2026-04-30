@@ -1,5 +1,5 @@
 # BSD 3-Clause License
-Copyright (c) 2025, Alex Free
+Copyright (c) 2025-2026, Alex Free
 
 All rights reserved.
 

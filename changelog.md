@@ -1,5 +1,27 @@
 # [360 Hack Pack - The Ultimate Xbox 360 Starter Pack](readme.md) -> Changelog
 
+## Version 1.0.4 (12/8/2025)
+
+Changes:
+
+* Updated [XeUnshackle](https://github.com/Byrom90/XeUnshackle) to v1.0.3 BETA.
+
+* Updated [FreeMyXe](https://github.com/FreeMyXe/FreeMyXe) to v1.1.
+
+* The above changes add compatibility with [Bad Storage (2TB HDD support)](https://fatxplorer.eaton-works.com/bad-storage/). They also seem to increase reliability and speed improvements for the exploit to me anyways...
+
+TODO:
+
+* Patch Aurora.xex/make it boot automatically after FreeMyXe. This already works for XeUnShackle, but I need to integrate actually patching of the Aurora before making the zip file for FreeMyXe to auto-launch after exploit.
+
+* Implement Dashboard exploit/HDD avatar exploit.
+
+* More options for original Xbox compatibility included by default.
+
+* ?? You tell me. I've been very happy with this. All my games from Fallout 3+GOTY DLC to GTA V have worked since pretty much the begining. 
+
+---------------------------------------
+
 ## Version 1.0.3 (8/8/2025)
 
 Changes:

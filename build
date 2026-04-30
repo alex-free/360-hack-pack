@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version="1.0.4"
+version="1.0.5"
 echo "360 Hack Pack v$version build system"
 
 if sed --version >/dev/null 2>&1; then
@@ -19,7 +19,7 @@ else
     sed -i'' -E "s|^version=.*|version=$version|" installer
 fi
 
-cd "$(dirname "$0")"
+cd "$(dirname "${BASH_SOURCE[0]}")"
 set -e
 rm -rf 360-hack-pack-v$version-freemyxe-ready-to-copy \
 360-hack-pack-v$version-freemyxe-ready-to-copy.zip \
@@ -29,6 +29,7 @@ rm -rf 360-hack-pack-v$version-freemyxe-ready-to-copy \
 360-hack-pack-v$version-downloader.zip
 
 if [ "$1" == "clean" ]; then
+    ./360hp clean
     echo "Built files deleted."
     exit 1
 fi

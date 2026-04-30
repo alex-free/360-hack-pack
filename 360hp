@@ -1,15 +1,13 @@
 #!/bin/bash
 
-version=1.0.4
+version=1.0.5
 
-system_update_dl="https://download.digiex.net/Consoles/Xbox360/Dashboards/SystemUpdate_17559_USB.zip"
+# Reg site been unreliable.
+system_update_dl="https://web.archive.org/web/20260213074722/https://download.digiex.net/Consoles/Xbox360/Dashboards/SystemUpdate_17559_USB.zip"
 system_update="$(basename $system_update_dl .zip)"
 
-bad_update_dl="https://github.com/grimdoomer/Xbox360BadUpdate/releases/download/v1.2/Xbox360BadUpdate-Retail-USB-v1.2.zip"
-bad_update="$(basename $bad_update_dl .zip)"
-
-rock_band_blitz_demo_dl="https://download.digiex.net/Consoles/Xbox360/Arcade-games/RBBlitz.zip"
-rock_band_blitz_demo="$(basename $rock_band_blitz_demo_dl .zip)"
+abadavatar_dl="https://github.com/shutterbug2000/ABadAvatar/releases/download/vPB1.0/ABadAvatar-publicbeta1.0.zip"
+abadavatar="$(basename $abadavatar_dl .zip)"
 
 freemyxe_dl="https://github.com/FreeMyXe/FreeMyXe/releases/download/1.1/FreeMyXe-1.1-xell-ea6de0b.zip"
 freemyxe="$(basename $freemyxe_dl .zip)"
@@ -17,7 +15,8 @@ freemyxe="$(basename $freemyxe_dl .zip)"
 xeunshackle_dl="https://github.com/Byrom90/XeUnshackle/releases/download/v1.03/XeUnshackle-BETA-v1_03.zip"
 xeunshackle="$(basename $xeunshackle_dl .zip)"
 
-xex_menu_dl="https://download.digiex.net/Consoles/Xbox360/Jtag/xexmenu_v1.1.rar"
+# Reg site been unreliable.
+xex_menu_dl="https://web.archive.org/web/20260213074722/https://download.digiex.net/Consoles/Xbox360/Jtag/xexmenu_v1.1.rar"
 xex_menu="$(basename $xex_menu_dl .rar)"
 
 simple_360_nand_flasher_dl="https://github.com/alex-free/XDK_Projects/releases/download/v1.5b/simple-360-nand-flasher-v1.5b-read-only.zip"
@@ -49,10 +48,11 @@ if [[ "$1" != "-x" && "$1" != "-f" && "$1" != "clean" ]]; then
     exit 1
 fi
 
+cd "$(dirname "${BASH_SOURCE[0]}")"
+
 if [ "$1" == "clean" ]; then
-    echo "Downloaded files deleted!"
     rm -f *.7z *.tar.gz *.zip *.rar
-    rm -rf 
+    echo "Downloaded files deleted!"
     exit 0
 fi
 
@@ -94,8 +94,6 @@ if ! command -v 7z &> /dev/null || ! command -v curl &> /dev/null || ! command -
     fi
 fi
 
-cd "$(dirname "${BASH_SOURCE[0]}")"
-
 if [ ! -e $system_update.zip ]; then
     echo "Downloading $system_update.zip..."
     curl -L "$system_update_dl" -o $system_update.zip
@@ -103,18 +101,11 @@ else
     echo "Found existing $system_update.zip."
 fi
 
-if [ ! -e $bad_update.zip ]; then
-    echo "Downloading $bad_update.zip..."
-    curl -L "$bad_update_dl" -o  $bad_update.zip 
+if [ ! -e $abadavatar.zip ]; then
+    echo "Downloading $abadavatar.zip..."
+    curl -L "$abadavatar_dl" -o  $abadavatar.zip 
 else
-    echo "Found existing $bad_update.zip."
-fi
-
-if [ ! -e $rock_band_blitz_demo.zip ]; then
-    echo "Downloading $rock_band_blitz_demo.zip..."
-    curl -L "$rock_band_blitz_demo_dl" -o $rock_band_blitz_demo.zip
-else
-    echo "Found existing $rock_band_blitz_demo.zip."
+    echo "Found existing $abadavatar.zip."
 fi
 
 if [ ! -e $simple_360_nand_flasher.zip ]; then
@@ -199,8 +190,7 @@ trap cleanup EXIT
 set -e
 
 unzip $system_update.zip -d $tmp/$system_update
-unzip $bad_update.zip -d $tmp/$bad_update
-unzip $rock_band_blitz_demo.zip -d $tmp/$rock_band_blitz_demo
+unzip $abadavatar.zip -d $tmp/$abadavatar
 
 # Unrar since Fedora p7zip has rar disabled ugh.
 # Unrar doesn't support an output path, so subshell to tmp.
@@ -211,7 +201,7 @@ true_root="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 (cd $tmp && unrar x "$true_root"/$xex_menu.rar)
 # Rar in a rar! Also without a parent dir...
 mkdir $tmp/xex-live
-(cd $tmp/xex-live && unrar x $tmp/$xex_menu/XeXMenu_v1.1-LIVE.rar)
+(cd $tmp/xex-live && unrar x -ad $tmp/$xex_menu/XeXMenu_v1.1-LIVE.rar)
 
 # No parent dir either...
 mkdir $tmp/$aurora
@@ -234,7 +224,7 @@ cp $tmp/xell-reloaded-v0.993-d4f08b4-winchester/xell.bin $tmp/$xell_reloaded
 mkdir -p "$2"/apps
 cp -rv $tmp/$system_update/'$SystemUpdate' "$2"/
 
-cp -rv $tmp/$bad_update/"Rock Band Blitz"/* "$2"
+cp -rv $tmp/$abadavatar/* "$2"
 
 if [ "$1" == "-f" ]; then
     unzip $freemyxe.zip -d $tmp/$freemyxe
@@ -264,9 +254,8 @@ elif [ "$1" == "-x" ]; then
     fi
 fi
 
-cp -rv $tmp/$rock_band_blitz_demo/Content "$2"
 ls $tmp
-cp -rv $tmp/xex-live/C0DE9999 "$2"/Content/0000000000000000/
+cp -rv $tmp/xex-live/* "$2"/Content/0000000000000000/
 cp -rv $tmp/$simple_360_nand_flasher "$2"/apps
 cp -rv $tmp/$aurora "$2"/apps
 cp -rv $tmp/$hdd_compat_partition_fixer "$2"/apps
