@@ -15,7 +15,7 @@ Exploit:
 Soft-mod loaders: (you decide):
 
 * [FreeMyXe](https://github.com/FreeMyXe/FreeMyXe) v1.1.
-* [XeUnshackle](https://github.com/Byrom90/XeUnshackle) v1.0.3 Beta (YOU DECIDE!).
+* [XeUnshackle](https://github.com/Byrom90/XeUnshackle) v1.0.3 Beta.
 
 Homebrew pograms:
 
@@ -100,9 +100,17 @@ There are 2 different releases. 'Ready To Copy' is the complete starter pack in 
 
 * BadUpdate is not a 100% reliable exploit (although the chance of success has been improved tremondously since Bad Update v1.2 came out, now in 360 Hack Pack v1.0.3+). If nothing happens for a few minutes while sitting on the sign-in screen, turn the console on and off and try again. You may or may not need to do this many times until it works as success is completely random but quite reliable at this point. Sometimes it starts immedietly, sometimes it takes minutes so it may just be worth restarting to try to hit that near instant exploit chance.
 
-Once BadUpdate brings you back to the dash board, you can connect to the internet because Xbox Live is blocked. Before turning off the console, you should disconnect from the internet however. If you have a wired ethernet connection, physically unplug the cord. If you have a WiFi connection, forget your WiFi network. If you have a power loss in your home and were not able to do this, as long as you turned off auto-sign in to an Xbox live profile and or turned on auto-sign in for an offline profile you should be ok. You can also skip signing in until your exploited again (recommended).
+* Once BadUpdate brings you back to the dash board, you can connect to the internet because Xbox Live is blocked. Before turning off the console, you should disconnect from the internet however. If you have a wired ethernet connection, physically unplug the cord. If you have a WiFi connection, forget your WiFi network. If you have a power loss in your home and were not able to do this, as long as you turned off auto-sign in to an Xbox live profile and or turned on auto-sign in for an offline profile you should be ok. You can also skip signing in until your exploited again (recommended).
 
-JTAG/RGH consoles are capable of modifying NAND. **BadUpdate consoles can not modify NAND without bricking!** Some homebrew programs do allow you to modify the NAND for some features, because it was never a problem before BadUpdate came out. For this reason I have for example built Simple 360 NAND Flasher with the new Read Only target, which disables all NAND flashing functionality but still allows you to dump and backup your NAND. You should backup your NAND immediately after first exploiting your console with the included Simple 360 NAND flasher read-only build. Even though you can't write the NAND backup with a BadUpdate console, if you brick it by accidentally writing to the NAND with some other home brew you could JTAG/RGH it and use said NAND backup to fix it (or have someone else do that for you if you supply said NAND backup).
+* JTAG/RGH consoles are capable of modifying NAND. **BadUpdate consoles can not modify NAND without bricking!** Some homebrew programs do allow you to modify the NAND for some features, because it was never a problem before BadUpdate came out. For this reason I have for example built Simple 360 NAND Flasher with the new Read Only target, which disables all NAND flashing functionality but still allows you to dump and backup your NAND. You should backup your NAND immediately after first exploiting your console with the included Simple 360 NAND flasher read-only build. Even though you can't write the NAND backup with a BadUpdate console, if you brick it by accidentally writing to the NAND with some other home brew you could JTAG/RGH it and use said NAND backup to fix it (or have someone else do that for you if you supply said NAND backup).
+
+* Updating to a new version of the hack pack is easy. You can safely overwrite an existing USB drive like it was a clean install (no existing files are deleted by design). You may get duplicate versions of older applications in your `apps` folder, you can delete the oldest one safely.
+
+* You may also switch between FreeMyXe and XeUnshackle at any time (although your USB drive may get a bit cluttered as again, nothing is ever deleted just overwritten/added).
+
+* You can remove your USB drive after the exploit has run from your console if your in the stock NXE original Xbox 360 dashboard without any issue (that way nothing is running off USB). The Aurora plugin will stop working if you do so (the thing that tells you the CPU temps and allows you to launch Aurora dash board after pressing the home button on the Xbox 360 controller) since it was loaded from USB, but Aurora itself can be launched again once the USB drive is inserted back into the console. You could also move everything to the HDD to prevent this.
+ 
+## OG Xbox Compat
 
 To setup original Xbox backwards compatibility:
 
@@ -114,12 +122,6 @@ To setup original Xbox backwards compatibility:
 
 If your using FreeMyXe, you need to run `apps\OGXboxPrep.xex` on your USB flash drive before you start an original Xbox game. After you exit the original Xbox game, you need to run `apps\OGXboxPrep.xex` again before running Xbox 360 software. **This isn't required with XeUnshackle.**
 
-Updating to a new version of the hack pack is easy. You can safely overwrite an existing USB drive like it was a clean install (no existing files are deleted by design). You may get duplicate versions of older applications in your `apps` folder, you can delete the oldest one safely.
-
-You may also switch between FreeMyXe and XeUnshackle at any time (although your USB drive may get a bit cluttered as again, nothing is ever deleted just overwritten/added).
-
-You can remove your USB drive after the exploit has run from your console if your in the stock NXE original Xbox 360 dashboard without any issue (that way nothing is running off USB). The Aurora plugin will stop working if you do so (the thing that tells you the CPU temps and allows you to launch Aurora dash board after pressing the home button on the Xbox 360 controller) since it was loaded from USB, but Aurora itself can be launched again once the USB drive is inserted back into the console. You could also move everything to the HDD to prevent this.
- 
  ## TODO
 
 * Patch Aurora.xex/make it boot automatically after FreeMyXe. This already works for XeUnShackle, but I need to integrate actually patching of the Aurora before making the zip file for FreeMyXe to auto-launch after exploit.
@@ -132,7 +134,7 @@ You can remove your USB drive after the exploit has run from your console if you
 
 * [@Grimdoomer](https://github.com/grimdoomer) for [BadUpdate](https://github.com/grimdoomer/Xbox360BadUpdate).
 
-* [@shutterbug2000] for [ABadAvatar](https://github.com/shutterbug2000/ABadAvatar/)]
+* [@shutterbug2000](https://github.com/shutterbug2000) for [ABadAvatar](https://github.com/shutterbug2000/ABadAvatar/)
 
 * [InvoxiPlayGames](https://github.com/InvoxiPlayGames) for FreeMyXe.
 
